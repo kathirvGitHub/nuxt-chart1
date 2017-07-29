@@ -1,0 +1,44 @@
+const Nuxt = require('nuxt')
+const app = require('express')()
+const server = require('http').createServer(app)
+const io = require('socket.io')(server)
+const port = process.env.PORT || 3000
+const isProd = process.env.NODE_ENV === 'production'
+
+// We instantiate Nuxt.js with the options
+let config = require('./nuxt.config.js')
+config.dev = !isProd
+const nuxt = new Nuxt(config)
+app.use(nuxt.render)
+
+// Build only in dev mode
+if (config.dev) {
+  nuxt.build()
+    .catch((error) => {
+      console.error(error) // eslint-disable-line no-console
+      process.exit(1)
+    })
+}
+
+// Listen the server
+server.listen(port, '0.0.0.0')
+console.log('Server listening on localhost:' + port) // eslint-disable-line no-console
+
+// Socket.io
+io.on('connection', (socket) => {
+  console.log('New user connected')
+  socket.on('getAvailabilityData', function () {
+    console.log('getAvailabilityData called by client')
+    var itemAvailabilityData = {
+      itemNames: ['Item Z', 'Item Y', 'Item X', 'Item W', 'Item V'],
+      itemAvailableNos: [getRandomInt(-100, 100), getRandomInt(-100, 100), getRandomInt(-100, 100), getRandomInt(-100, 100), getRandomInt(-100, 100)]
+    };
+    socket.emit('updateAvailabilityData', itemAvailabilityData);
+  });
+});
+
+function getRandomInt(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min)) + min; //The maximum is exclusive and the minimum is inclusive
+}

@@ -38,6 +38,9 @@ module.exports = {
       }
     }
   },
+  env: {
+    WS_URL: process.env.WS_URL || 'http://localhost:3000'
+  }
   // css: [    
   //   // Css file in the project
   //   '~assets/css/grid.css',

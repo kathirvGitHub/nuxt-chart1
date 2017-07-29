@@ -1,14 +1,15 @@
 <template>
   <div>
     <highcharts :options="options" ref="highcharts"></highcharts>
-    <button @click="updateChart">Update Chart</button>
+    <button @click="updateChart">Start Updating Chart</button>
   </div>
 </template>
 
 <script>
-import Logo from '~components/Logo.vue'
+// import Logo from '~components/Logo.vue'
 import Vue from 'vue'
 import VueHighcharts from 'vue-highcharts'
+import socket from '~/plugins/socket.io.js'
 
 Vue.use(VueHighcharts)
 
@@ -57,21 +58,47 @@ var chartOptions = {
 }
 
 export default {
-  components: {
-    Logo
-  },
+  // components: {
+  //   Logo
+  // },
   data () {
-    return { options: chartOptions }
+    return {
+      options: chartOptions
+    }
+  },
+  beforeMount () {
+    socket.on('updateAvailabilityData', (itemAvailabilityData) => {
+      var chart = this.$refs.highcharts.chart
+      chart.series[0].setData(itemAvailabilityData.itemAvailableNos)
+      chart.xAxis[0].setTitle({
+        text: itemAvailabilityData.itemNames
+      })
+    })
   },
   methods: {
     updateChart () {
-      var chart = this.$refs.highcharts.chart
-      var newdata = [Math.floor(Math.random() * (200)) - 100, Math.floor(Math.random() * (200)) - 100, Math.floor(Math.random() * (200)) - 100]
-      console.log(chart.series[0])
-      chart.series[0].setData(newdata)
-      chart.xAxis[0].setTitle({
-        text: 'New Title'
-      })
+      // var chart = this.$refs.highcharts.chart
+      // // var newdata = [Math.floor(Math.random() * (200)) - 100, Math.floor(Math.random() * (200)) - 100, Math.floor(Math.random() * (200)) - 100]
+      // var newdata = [this.getRandomInt(-100, 100), this.getRandomInt(-100, 100), this.getRandomInt(-100, 100)]
+      // console.log(chart.series[0])
+      // chart.series[0].setData(newdata)
+      // chart.xAxis[0].setTitle({
+      //   text: 'New Title'
+      // })
+      // console.log('getAvailabilityData called to server')
+      // socket.emit('getAvailabilityData')
+      this.timerFunction()
+    },
+    getRandomInt (min, max) {
+      min = Math.ceil(min)
+      max = Math.floor(max)
+      return Math.floor(Math.random() * (max - min)) + min // The maximum is exclusive and the minimum is inclusive
+    },
+    timerFunction () {
+      setInterval(function () {
+        console.log('getAvailabilityData called to server')
+        socket.emit('getAvailabilityData')
+      }, 3000)
     }
   },
   head () {
