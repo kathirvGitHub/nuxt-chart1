@@ -24,22 +24,10 @@ module.exports = {
   ** Build configuration
   */
   build: {
-    /*
-    ** Run ESLINT on save
-    */
-    extend (config, ctx) {
-      if (ctx.isClient) {
-        config.module.rules.push({
-          enforce: 'pre',
-          test: /\.(js|vue)$/,
-          loader: 'eslint-loader',
-          exclude: /(node_modules)/
-        })
-      }
-    }
+    vendor: ['socket.io-client']
   },
   env: {
-    WS_URL: process.env.WS_URL || 'http://localhost:3000'
+    HOST_URL: process.env.HOST_URL || 'https://nuxt-sample1-buhjvhnmbk.now.sh/'
   }
   // css: [    
   //   // Css file in the project
