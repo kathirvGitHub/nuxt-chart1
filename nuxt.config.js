@@ -27,7 +27,7 @@ module.exports = {
     vendor: ['socket.io-client']
   },
   env: {
-    HOST_URL: process.env.HOST_URL || 'https://nuxt-sample1-buhjvhnmbk.now.sh/'
+    HOST_URL: process.env.NOW_URL || 'http://localhost:3000/'
   }
   // css: [    
   //   // Css file in the project

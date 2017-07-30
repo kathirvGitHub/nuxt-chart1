@@ -70,9 +70,7 @@ export default {
     socket.on('updateAvailabilityData', (itemAvailabilityData) => {
       var chart = this.$refs.highcharts.chart
       chart.series[0].setData(itemAvailabilityData.itemAvailableNos)
-      chart.xAxis[0].setTitle({
-        text: itemAvailabilityData.itemNames
-      })
+      chart.xAxis[0].setCategories(itemAvailabilityData.itemNames)
     })
   },
   methods: {

@@ -2,8 +2,14 @@ const Nuxt = require('nuxt')
 const app = require('express')()
 const server = require('http').createServer(app)
 const io = require('socket.io')(server)
+const axios = require('axios')
 const port = process.env.PORT || 3000
 const isProd = process.env.NODE_ENV === 'production'
+
+const { isRealString } = require('./utils/validation')
+const { getJDEAvailability } = require('./JDE/jde')
+const { User } = require('./models/user')
+var { mongoose } = require('./db/mongoose')
 
 // We instantiate Nuxt.js with the options
 let config = require('./nuxt.config.js')
@@ -20,6 +26,14 @@ if (config.dev) {
     })
 }
 
+var jdeUser = null
+
+User.find().then((users) => {
+    jdeUser = users[0];
+}, (e) => {
+    console.log(e);
+})
+
 // Listen the server
 server.listen(port, '0.0.0.0')
 console.log('Server listening on localhost:' + port) // eslint-disable-line no-console
@@ -27,13 +41,15 @@ console.log('Server listening on localhost:' + port) // eslint-disable-line no-c
 // Socket.io
 io.on('connection', (socket) => {
   console.log('New user connected')
+  console.log('JDE user info to be user', jdeUser)
   socket.on('getAvailabilityData', function () {
     console.log('getAvailabilityData called by client')
-    var itemAvailabilityData = {
-      itemNames: ['Item Z', 'Item Y', 'Item X', 'Item W', 'Item V'],
-      itemAvailableNos: [getRandomInt(-100, 100), getRandomInt(-100, 100), getRandomInt(-100, 100), getRandomInt(-100, 100), getRandomInt(-100, 100)]
-    };
-    socket.emit('updateAvailabilityData', itemAvailabilityData);
+    // var itemAvailabilityData = {
+    //   itemNames: ['Item Z', 'Item Y', 'Item X', 'Item W', 'Item V'],
+    //   itemAvailableNos: [getRandomInt(-100, 100), getRandomInt(-100, 100), getRandomInt(-100, 100), getRandomInt(-100, 100), getRandomInt(-100, 100)]
+    // };
+    // socket.emit('updateAvailabilityData', itemAvailabilityData);
+    getJDEAvailability(socket, jdeUser)
   });
 });
 
