@@ -26,7 +26,7 @@ var chartOptions = {
   xAxis: {
     categories: ['Items'],
     title: {
-      text: ['Item 1', 'Item 2', 'Item 3']
+      text: ['Items']
     }
   },
   yAxis: {
