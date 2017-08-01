@@ -9,7 +9,7 @@
     "express": "^4.15.3",
     "highcharts": "^5.0.14",
     "mongoose": "^4.11.5",
-    "nuxt": "^0.10.7",
+    "nuxt": "^1.0.0-rc3",
     "socket.io": "^2.0.3",
     "socket.io-client": "^2.0.3",
     "vue-highcharts": "0.0.10"

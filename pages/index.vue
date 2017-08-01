@@ -1,104 +1,107 @@
 <template>
   <div>
-    <highcharts :options="options" ref="highcharts"></highcharts>
+    <!-- <highcharts :options="options" ref="highcharts"></highcharts>
     <button @click="updateChart">Start Updating Chart</button>
+    <h2>test {{ getLoggedUser.name }}</h2> -->
+    <h1> Hi </h1>
   </div>
 </template>
 
 <script>
 // import Logo from '~components/Logo.vue'
-import Vue from 'vue'
-import VueHighcharts from 'vue-highcharts'
-import socket from '~/plugins/socket.io.js'
+// import Vue from 'vue'
+// import VueHighcharts from 'vue-highcharts'
+// import socket from '~/plugins/socket.io.js'
+// import {mapGetters, mapState, mapMutations} from 'vuex'
 
-Vue.use(VueHighcharts)
+// Vue.use(VueHighcharts)
 
-var chartOptions = {
-  chart: {
-    type: 'bar'
-  },
-  title: {
-    text: 'Item availability 1'
-  },
-  subtitle: {
-    text: 'Source: JDE EnterpriseOne, Forza DV910'
-  },
-  xAxis: {
-    categories: ['Items'],
-    title: {
-      text: ['Items']
-    }
-  },
-  yAxis: {
-    title: {
-      text: 'Availability',
-      align: 'high'
-    },
-    labels: {
-      overflow: 'justify'
-    }
-  },
-  tooltip: {
-    valueSuffix: ' primary UOM'
-  },
-  plotOptions: {
-    bar: {
-      dataLabels: {
-        enabled: true
-      }
-    }
-  },
-  credits: {
-    enabled: false
-  },
-  series: [{
-    name: 'Availability',
-    data: [1, 3, -1]
-  }]
-}
+// var chartOptions = {
+//   chart: {
+//     type: 'bar'
+//   },
+//   title: {
+//     text: 'Item availability 1'
+//   },
+//   subtitle: {
+//     text: 'Source: JDE EnterpriseOne, Forza DV910'
+//   },
+//   xAxis: {
+//     categories: ['Items'],
+//     title: {
+//       text: ['Items']
+//     }
+//   },
+//   yAxis: {
+//     title: {
+//       text: 'Availability',
+//       align: 'high'
+//     },
+//     labels: {
+//       overflow: 'justify'
+//     }
+//   },
+//   tooltip: {
+//     valueSuffix: ' primary UOM'
+//   },
+//   plotOptions: {
+//     bar: {
+//       dataLabels: {
+//         enabled: true
+//       }
+//     }
+//   },
+//   credits: {
+//     enabled: false
+//   },
+//   series: [{
+//     name: 'Availability',
+//     data: [1, 3, -1]
+//   }]
+// }
 
 export default {
-  // components: {
-  //   Logo
+  // data () {
+  //   return {
+  //     options: chartOptions
+  //   }
   // },
-  data () {
-    return {
-      options: chartOptions
-    }
-  },
-  beforeMount () {
-    socket.on('updateAvailabilityData', (itemAvailabilityData) => {
-      var chart = this.$refs.highcharts.chart
-      chart.series[0].setData(itemAvailabilityData.itemAvailableNos)
-      chart.xAxis[0].setCategories(itemAvailabilityData.itemNames)
-    })
-  },
-  methods: {
-    updateChart () {
-      // var chart = this.$refs.highcharts.chart
-      // // var newdata = [Math.floor(Math.random() * (200)) - 100, Math.floor(Math.random() * (200)) - 100, Math.floor(Math.random() * (200)) - 100]
-      // var newdata = [this.getRandomInt(-100, 100), this.getRandomInt(-100, 100), this.getRandomInt(-100, 100)]
-      // console.log(chart.series[0])
-      // chart.series[0].setData(newdata)
-      // chart.xAxis[0].setTitle({
-      //   text: 'New Title'
-      // })
-      // console.log('getAvailabilityData called to server')
-      // socket.emit('getAvailabilityData')
-      this.timerFunction()
-    },
-    getRandomInt (min, max) {
-      min = Math.ceil(min)
-      max = Math.floor(max)
-      return Math.floor(Math.random() * (max - min)) + min // The maximum is exclusive and the minimum is inclusive
-    },
-    timerFunction () {
-      setInterval(function () {
-        console.log('getAvailabilityData called to server')
-        socket.emit('getAvailabilityData')
-      }, 3000)
-    }
-  },
+  // middleware: ['userparam'],
+  // computed: mapGetters (['getLoggedUser']),
+  // beforeMount () {
+  //   socket.on('updateAvailabilityData', (itemAvailabilityData) => {
+  //     var chart = this.$refs.highcharts.chart
+  //     chart.series[0].setData(itemAvailabilityData.itemAvailableNos)
+  //     chart.xAxis[0].setCategories(itemAvailabilityData.itemNames)
+  //   })
+  // },
+  // methods: {
+  //   updateChart () {
+  //     // var chart = this.$refs.highcharts.chart
+  //     // var newdata = [Math.floor(Math.random() * (200)) - 100, Math.floor(Math.random() * (200)) - 100, Math.floor(Math.random() * (200)) - 100]
+  //     // var newdata = [this.getRandomInt(-100, 100), this.getRandomInt(-100, 100), this.getRandomInt(-100, 100)]
+  //     // console.log(chart.series[0])
+  //     // chart.series[0].setData(newdata)
+  //     // chart.xAxis[0].setTitle({
+  //     //   text: 'New Title'
+  //     // })
+  //     // console.log('getAvailabilityData called to server')
+  //     // socket.emit('getAvailabilityData')
+  //     this.timerFunction()
+  //   },
+  //   getRandomInt (min, max) {
+  //     min = Math.ceil(min)
+  //     max = Math.floor(max)
+  //     return Math.floor(Math.random() * (max - min)) + min // The maximum is exclusive and the minimum is inclusive
+  //   },
+  //   timerFunction ({store}) {
+  //     setInterval(function () {
+  //       console.log('getAvailabilityData called to server')
+  //       console.log(this.getLoggedUser.name)
+  //       socket.emit('getAvailabilityData')
+  //     }, 3000)
+  //   }
+  // },
   head () {
     return {
       title: 'JDE Chart v1'
